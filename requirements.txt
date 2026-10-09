@@ -1,0 +1,3 @@
+# MESA Restaurant Reservations
+# Frontend-only application using Python's built-in http.server
+# No external third-party Python packages required.

@@ -1,0 +1,2457 @@
+/* ==========================================================================
+   MESA — Restaurant Reservations Design System
+   Exact Visual Palette derived from MESA Design Specifications & Reference
+   ========================================================================== */
+
+:root {
+  /* Strict Theme Colors as Specified */
+  --background: #FBF8F2;
+  --surface-card: #FFFFFF;
+  --input-background: #F5F1EB;
+  --primary: #A33F17;
+  --primary-hover: #843111;
+  --text-primary: #2D211B;
+  --text-secondary: #81746B;
+  --border: #E9E0D6;
+  --footer-background: #FCFAF7;
+
+  /* Harmonious Supplemental Tokens */
+  --surface: #FFFFFF;
+  --surface-secondary: #FAF7F2;
+  --primary-light: #F8ECE6;
+  --primary-glow: rgba(163, 63, 23, 0.16);
+  --text-muted: #9E9187;
+  --text-inverted: #FFFFFF;
+
+  --input-border: #E9E0D6;
+  --input-focus-border: #A33F17;
+
+  --border-subtle: #F3ECE4;
+  --border-strong: #DCD0C2;
+
+  --badge-background: #F4EFE7;
+  --badge-text: #73655C;
+
+  /* Status Colors */
+  --success: #2E7D32;
+  --success-light: #EBF5EC;
+  --success-border: #C6E4C8;
+
+  --danger: #C53030;
+  --danger-hover: #9B2C2C;
+  --danger-light: #FFF5F5;
+  --danger-border: #FEB2B2;
+
+  /* Soft Warm Shadows */
+  --shadow-subtle: 0 2px 8px rgba(45, 33, 27, 0.04);
+  --shadow-card: 0 10px 30px -4px rgba(45, 33, 27, 0.07), 0 2px 6px rgba(45, 33, 27, 0.02);
+  --shadow-lg: 0 16px 40px -6px rgba(45, 33, 27, 0.10), 0 4px 12px rgba(45, 33, 27, 0.03);
+  --shadow-auth: 0 14px 44px -8px rgba(45, 33, 27, 0.10), 0 2px 10px rgba(45, 33, 27, 0.04);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Dimensions */
+  --max-width: 1140px;
+  --header-height: 72px;
+}
+
+/* ==========================================================================
+   Base & Reset
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 0%, #FFFFFF 0%, var(--background) 72%);
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  border: 1px solid var(--input-border);
+  background-color: var(--input-background);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--input-focus-border);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================================================
+   REFINED, HUMANE SCREEN NAVIGATOR BAR
+   Warm, elegant styling integrated naturally into the MESA aesthetic
+   ========================================================================== */
+
+.prototype-bar {
+  background-color: #F5EFE7;
+  color: var(--text-primary);
+  padding: 10px 18px;
+  font-size: 0.8125rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(45, 33, 27, 0.04);
+}
+
+.prototype-bar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prototype-bar-title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.proto-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  display: inline-block;
+}
+
+.proto-brand-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.prototype-bar-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.proto-link {
+  color: var(--text-secondary);
+  padding: 4px 11px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.76rem;
+  font-weight: 500;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.proto-link:hover {
+  background-color: #FFFFFF;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* Active Indicator in Navigator Bar based on CSS :target */
+body:not(:has(:target)) .proto-link[href="#screen-login"] {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+body:has(#screen-login:target) .proto-link[href="#screen-login"],
+body:has(#screen-signup:target) .proto-link[href="#screen-signup"],
+body:has(#screen-home:target) .proto-link[href="#screen-home"],
+body:has(#screen-restaurants:target) .proto-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-details:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-restaurant-tavola:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-restaurant-dragon:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-restaurant-green:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-restaurant-sakura:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-restaurant-casa:target) .proto-link[href="#screen-restaurant-details"],
+body:has(#screen-booking-datetime:target) .proto-link[href="#screen-booking-datetime"],
+body:has(#screen-booking-table:target) .proto-link[href="#screen-booking-table"],
+body:has(#screen-booking-summary:target) .proto-link[href="#screen-booking-summary"],
+body:has(#screen-booking-confirmation:target) .proto-link[href="#screen-booking-confirmation"],
+body:has(#screen-my-bookings:target) .proto-link[href="#screen-my-bookings"],
+body:has(#screen-booking-details:target) .proto-link[href="#screen-booking-details"],
+body:has(#screen-profile:target) .proto-link[href="#screen-profile"] {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PURE CSS STATE MIRRORING (Booking Options Synchronized Across Screens)
+   ========================================================================== */
+
+.state-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Hidden by default; only the matching checked option will display */
+.dynamic-val {
+  display: none !important;
+}
+
+/* 1. Restaurant Dynamic Mirroring */
+body:has(#g-rest-saffron:checked) .dyn-rest-saffron { display: inline !important; }
+body:has(#g-rest-tavola:checked) .dyn-rest-tavola { display: inline !important; }
+body:has(#g-rest-dragon:checked) .dyn-rest-dragon { display: inline !important; }
+body:has(#g-rest-green:checked) .dyn-rest-green { display: inline !important; }
+body:has(#g-rest-sakura:checked) .dyn-rest-sakura { display: inline !important; }
+body:has(#g-rest-casa:checked) .dyn-rest-casa { display: inline !important; }
+
+/* Dynamic Restaurant Images */
+.dyn-rest-img {
+  display: none !important;
+}
+body:has(#g-rest-saffron:checked) .dyn-img-saffron { display: block !important; }
+body:has(#g-rest-tavola:checked) .dyn-img-tavola { display: block !important; }
+body:has(#g-rest-dragon:checked) .dyn-img-dragon { display: block !important; }
+body:has(#g-rest-green:checked) .dyn-img-green { display: block !important; }
+body:has(#g-rest-sakura:checked) .dyn-img-sakura { display: block !important; }
+body:has(#g-rest-casa:checked) .dyn-img-casa { display: block !important; }
+
+/* 2. Date Dynamic Mirroring */
+body:has(#g-date-today:checked) .dyn-date-today { display: inline !important; }
+body:has(#g-date-tomorrow:checked) .dyn-date-tomorrow { display: inline !important; }
+body:has(#g-date-sun:checked) .dyn-date-sun { display: inline !important; }
+body:has(#g-date-mon:checked) .dyn-date-mon { display: inline !important; }
+body:has(#g-date-tue:checked) .dyn-date-tue { display: inline !important; }
+body:has(#g-date-fri:checked) .dyn-date-fri { display: inline !important; }
+
+/* 3. Time Dynamic Mirroring */
+body:has(#g-time-1200:checked) .dyn-time-1200 { display: inline !important; }
+body:has(#g-time-1230:checked) .dyn-time-1230 { display: inline !important; }
+body:has(#g-time-1300:checked) .dyn-time-1300 { display: inline !important; }
+body:has(#g-time-1330:checked) .dyn-time-1330 { display: inline !important; }
+body:has(#g-time-1900:checked) .dyn-time-1900 { display: inline !important; }
+body:has(#g-time-1930:checked) .dyn-time-1930 { display: inline !important; }
+body:has(#g-time-2000:checked) .dyn-time-2000 { display: inline !important; }
+body:has(#g-time-2030:checked) .dyn-time-2030 { display: inline !important; }
+
+/* 4. Guests Dynamic Mirroring */
+body:has(#g-guest-1:checked) .dyn-guest-1 { display: inline !important; }
+body:has(#g-guest-2:checked) .dyn-guest-2 { display: inline !important; }
+body:has(#g-guest-3:checked) .dyn-guest-3 { display: inline !important; }
+body:has(#g-guest-4:checked) .dyn-guest-4 { display: inline !important; }
+body:has(#g-guest-5:checked) .dyn-guest-5 { display: inline !important; }
+body:has(#g-guest-6:checked) .dyn-guest-6 { display: inline !important; }
+body:has(#g-guest-8:checked) .dyn-guest-8 { display: inline !important; }
+
+/* 5. Table Dynamic Mirroring */
+body:has(#g-table-t1:checked) .dyn-table-t1 { display: inline !important; }
+body:has(#g-table-t2:checked) .dyn-table-t2 { display: inline !important; }
+body:has(#g-table-t3:checked) .dyn-table-t3 { display: inline !important; }
+body:has(#g-table-t5:checked) .dyn-table-t5 { display: inline !important; }
+body:has(#g-table-t7:checked) .dyn-table-t7 { display: inline !important; }
+body:has(#g-table-t8:checked) .dyn-table-t8 { display: inline !important; }
+
+/* 6. Booking Life Status Switching (Active vs Cancelled) */
+.state-cancelled-only {
+  display: none !important;
+}
+.state-active-only {
+  display: block;
+}
+span.state-active-only {
+  display: inline !important;
+}
+label.state-active-only, a.state-active-only {
+  display: inline-flex !important;
+}
+
+body:has(#g-booking-cancelled:checked) .state-active-only {
+  display: none !important;
+}
+body:has(#g-booking-cancelled:checked) .state-cancelled-only {
+  display: block !important;
+}
+body:has(#g-booking-cancelled:checked) span.state-cancelled-only {
+  display: inline !important;
+}
+body:has(#g-booking-cancelled:checked) .badge.state-cancelled-only {
+  display: inline-flex !important;
+}
+body:has(#g-booking-cancelled:checked) label.state-cancelled-only,
+body:has(#g-booking-cancelled:checked) a.state-cancelled-only {
+  display: inline-flex !important;
+}
+body:has(#g-booking-cancelled:checked) article.booking-item-card.state-cancelled-only {
+  display: flex !important;
+}
+
+/* Danger Button & Badges */
+.btn-danger {
+  background-color: var(--danger);
+  color: #FFFFFF;
+  border: 1px solid var(--danger);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  user-select: none;
+  font-size: 0.9rem;
+}
+.btn-danger:hover {
+  background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.25);
+}
+
+.btn-outline-danger {
+  background-color: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+.btn-outline-danger:hover {
+  background-color: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger-hover);
+}
+
+.badge-cancelled {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.76rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Cancellation Banner & Empty State in My Bookings */
+.cancellation-alert-banner {
+  background-color: var(--danger-light);
+  border: 1.5px solid var(--danger-border);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.empty-bookings-box {
+  background-color: var(--surface-card);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 44px 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.empty-bookings-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  background-color: var(--danger-light);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+.empty-bookings-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.empty-bookings-text {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Active States for Selections based on Global Radios */
+
+/* Restaurant Picker Cards on Booking Screen */
+.restaurant-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.rest-picker-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: var(--surface-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  user-select: none;
+}
+
+.rest-picker-card:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(45, 33, 27, 0.05);
+}
+
+.rest-picker-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.rest-picker-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.rest-picker-name {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.rest-picker-meta {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.rest-picker-badge {
+  display: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--primary);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  align-self: center;
+  flex-shrink: 0;
+}
+
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-picker-card,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-picker-card,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-picker-card,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-picker-card,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-picker-card,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-picker-card {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  box-shadow: 0 4px 14px rgba(163, 63, 23, 0.16);
+}
+
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-picker-card .rest-picker-badge,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-picker-card .rest-picker-badge,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-picker-card .rest-picker-badge,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-picker-card .rest-picker-badge,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-picker-card .rest-picker-badge,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-picker-card .rest-picker-badge {
+  display: inline-flex !important;
+}
+
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-picker-card .rest-picker-name,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-picker-card .rest-picker-name,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-picker-card .rest-picker-name,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-picker-card .rest-picker-name,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-picker-card .rest-picker-name,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-picker-card .rest-picker-name {
+  color: var(--primary);
+}
+
+/* Restaurant Details Sidebar Select Button */
+.rest-select-label-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+.rest-select-picked {
+  display: none;
+}
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-select-label-btn,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-select-label-btn,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-select-label-btn,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-select-label-btn,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-select-label-btn,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-select-label-btn {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-select-label-btn .rest-select-unpicked,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-select-label-btn .rest-select-unpicked,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-select-label-btn .rest-select-unpicked,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-select-label-btn .rest-select-unpicked,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-select-label-btn .rest-select-unpicked,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-select-label-btn .rest-select-unpicked {
+  display: none !important;
+}
+body:has(#g-rest-saffron:checked) label[for="g-rest-saffron"].rest-select-label-btn .rest-select-picked,
+body:has(#g-rest-tavola:checked) label[for="g-rest-tavola"].rest-select-label-btn .rest-select-picked,
+body:has(#g-rest-dragon:checked) label[for="g-rest-dragon"].rest-select-label-btn .rest-select-picked,
+body:has(#g-rest-green:checked) label[for="g-rest-green"].rest-select-label-btn .rest-select-picked,
+body:has(#g-rest-sakura:checked) label[for="g-rest-sakura"].rest-select-label-btn .rest-select-picked,
+body:has(#g-rest-casa:checked) label[for="g-rest-casa"].rest-select-label-btn .rest-select-picked {
+  display: inline-flex !important;
+}
+
+/* Date chips */
+body:has(#g-date-today:checked) label[for="g-date-today"].date-chip-btn,
+body:has(#g-date-tomorrow:checked) label[for="g-date-tomorrow"].date-chip-btn,
+body:has(#g-date-sun:checked) label[for="g-date-sun"].date-chip-btn,
+body:has(#g-date-mon:checked) label[for="g-date-mon"].date-chip-btn,
+body:has(#g-date-tue:checked) label[for="g-date-tue"].date-chip-btn,
+body:has(#g-date-fri:checked) label[for="g-date-fri"].date-chip-btn {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1.5px var(--primary);
+}
+body:has(#g-date-today:checked) label[for="g-date-today"].date-chip-btn .date-chip-day,
+body:has(#g-date-tomorrow:checked) label[for="g-date-tomorrow"].date-chip-btn .date-chip-day,
+body:has(#g-date-sun:checked) label[for="g-date-sun"].date-chip-btn .date-chip-day,
+body:has(#g-date-mon:checked) label[for="g-date-mon"].date-chip-btn .date-chip-day,
+body:has(#g-date-tue:checked) label[for="g-date-tue"].date-chip-btn .date-chip-day,
+body:has(#g-date-fri:checked) label[for="g-date-fri"].date-chip-btn .date-chip-day {
+  color: var(--primary);
+}
+
+/* Booking Preview Banners */
+.booking-preview-banner {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 22px;
+  position: relative;
+  height: 140px;
+}
+.booking-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.booking-preview-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  background: linear-gradient(180deg, transparent 0%, rgba(45, 33, 27, 0.85) 100%);
+  color: #FFFFFF;
+}
+.booking-preview-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+.booking-preview-subtitle {
+  font-size: 0.82rem;
+  opacity: 0.9;
+  margin-top: 2px;
+  color: #FBF8F2;
+}
+
+/* My Bookings Card Enhancements */
+.booking-item-card-inner {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+}
+.booking-thumb-box {
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.booking-thumb-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Guest chips */
+body:has(#g-guest-1:checked) label[for="g-guest-1"].guest-chip-btn,
+body:has(#g-guest-2:checked) label[for="g-guest-2"].guest-chip-btn,
+body:has(#g-guest-3:checked) label[for="g-guest-3"].guest-chip-btn,
+body:has(#g-guest-4:checked) label[for="g-guest-4"].guest-chip-btn,
+body:has(#g-guest-5:checked) label[for="g-guest-5"].guest-chip-btn,
+body:has(#g-guest-6:checked) label[for="g-guest-6"].guest-chip-btn,
+body:has(#g-guest-8:checked) label[for="g-guest-8"].guest-chip-btn {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.25);
+}
+
+/* Time slot buttons */
+body:has(#g-time-1200:checked) label[for="g-time-1200"].time-slot-btn,
+body:has(#g-time-1230:checked) label[for="g-time-1230"].time-slot-btn,
+body:has(#g-time-1300:checked) label[for="g-time-1300"].time-slot-btn,
+body:has(#g-time-1330:checked) label[for="g-time-1330"].time-slot-btn,
+body:has(#g-time-1900:checked) label[for="g-time-1900"].time-slot-btn,
+body:has(#g-time-1930:checked) label[for="g-time-1930"].time-slot-btn,
+body:has(#g-time-2000:checked) label[for="g-time-2000"].time-slot-btn,
+body:has(#g-time-2030:checked) label[for="g-time-2030"].time-slot-btn {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.25);
+}
+
+/* Floor plan tables */
+body:has(#g-table-t1:checked) label[for="g-table-t1"].table-node,
+body:has(#g-table-t2:checked) label[for="g-table-t2"].table-node,
+body:has(#g-table-t3:checked) label[for="g-table-t3"].table-node,
+body:has(#g-table-t5:checked) label[for="g-table-t5"].table-node,
+body:has(#g-table-t7:checked) label[for="g-table-t7"].table-node,
+body:has(#g-table-t8:checked) label[for="g-table-t8"].table-node {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(163, 63, 23, 0.32);
+  transform: translateY(-2px);
+}
+body:has(#g-table-t1:checked) label[for="g-table-t1"].table-node .table-capacity-text,
+body:has(#g-table-t2:checked) label[for="g-table-t2"].table-node .table-capacity-text,
+body:has(#g-table-t3:checked) label[for="g-table-t3"].table-node .table-capacity-text,
+body:has(#g-table-t5:checked) label[for="g-table-t5"].table-node .table-capacity-text,
+body:has(#g-table-t7:checked) label[for="g-table-t7"].table-node .table-capacity-text,
+body:has(#g-table-t8:checked) label[for="g-table-t8"].table-node .table-capacity-text {
+  color: #FFFFFF;
+  opacity: 0.95;
+}
+body:has(#g-table-t1:checked) label[for="g-table-t1"].table-node .table-selected-badge,
+body:has(#g-table-t2:checked) label[for="g-table-t2"].table-node .table-selected-badge,
+body:has(#g-table-t3:checked) label[for="g-table-t3"].table-node .table-selected-badge,
+body:has(#g-table-t5:checked) label[for="g-table-t5"].table-node .table-selected-badge,
+body:has(#g-table-t7:checked) label[for="g-table-t7"].table-node .table-selected-badge,
+body:has(#g-table-t8:checked) label[for="g-table-t8"].table-node .table-selected-badge {
+  display: inline-block !important;
+}
+
+.btn-label-wrap {
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PURE CSS SCREEN MANAGEMENT (NO JAVASCRIPT REQUIRED)
+   Uses :target and body:not(:has(:target)) with fallback support
+   ========================================================================== */
+
+.screen {
+  display: none;
+  width: 100%;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Default Screen (Screen 1: Login / Sign Up) when URL has no hash */
+body:not(:has(:target)) #screen-login {
+  display: block;
+}
+
+/* Active Screen when targeted via hash */
+.screen:target {
+  display: block;
+}
+
+/* Graceful fallback for browsers without :has() */
+@supports not (selector(:has(*))) {
+  .screen {
+    display: block !important;
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 2px dashed var(--border);
+  }
+}
+
+/* ==========================================================================
+   Site Header & Navigation
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 42px; /* Sits beneath navigator bar */
+  z-index: 900;
+  background-color: rgba(251, 248, 242, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Brand Logo (Exact Reference Match) */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.logo-badge {
+  width: 38px;
+  height: 38px;
+  background-color: var(--primary);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.24);
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .logo-badge {
+  transform: scale(1.04);
+}
+
+.logo-icon-svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+/* Highlight current header nav item via pure CSS */
+body:has(#screen-home:target) .nav-link[href="#screen-home"],
+body:has(#screen-restaurants:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-details:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-tavola:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-dragon:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-green:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-sakura:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-restaurant-casa:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-booking-datetime:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-booking-table:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-booking-summary:target) .nav-link[href="#screen-restaurants"],
+body:has(#screen-my-bookings:target) .nav-link[href="#screen-my-bookings"],
+body:has(#screen-booking-details:target) .nav-link[href="#screen-my-bookings"],
+body:has(#screen-profile:target) .nav-link[href="#screen-profile"] {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+body:has(#screen-home:target) .nav-link[href="#screen-home"]::after,
+body:has(#screen-restaurants:target) .nav-link[href="#screen-restaurants"]::after,
+body:has(#screen-my-bookings:target) .nav-link[href="#screen-my-bookings"]::after,
+body:has(#screen-profile:target) .nav-link[href="#screen-profile"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+/* Header User Profile & Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--badge-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.user-avatar-btn:hover {
+  background-color: #EDE5DA;
+  border-color: var(--border-strong);
+}
+
+.user-avatar-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Buttons & Core Components
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 12px 22px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(163, 63, 23, 0.28);
+}
+
+.btn-primary:active {
+  background-color: #6E260B;
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--input-background);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  background-color: var(--input-background);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 1rem;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.84rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background-color: var(--badge-background);
+  color: var(--badge-text);
+}
+
+.badge-version {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  background-color: var(--badge-background);
+  color: var(--badge-text);
+  border-radius: var(--radius-full);
+}
+
+.badge-success {
+  background-color: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+  font-weight: 600;
+}
+
+.badge-primary {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   1. LOGIN / SIGN UP SCREEN (EXACT MATCH TO REFERENCE IMAGE)
+   ========================================================================== */
+
+.auth-viewport {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 38px 36px 30px;
+  box-shadow: var(--shadow-auth);
+  border: 1px solid rgba(233, 224, 214, 0.9);
+  position: relative;
+  text-align: left;
+}
+
+.auth-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.auth-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 26px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  text-align: left;
+}
+
+.form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-left {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon-left svg {
+  width: 17px;
+  height: 17px;
+  stroke: var(--text-muted);
+}
+
+.auth-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 42px 0 42px;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--input-border);
+  background-color: var(--input-background);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.auth-input.no-left-icon {
+  padding-left: 14px;
+}
+
+/* Password Toggle via Pure CSS Checkbox Hack */
+.pw-toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.pw-input-unmasked {
+  display: none !important;
+}
+
+.pw-input-masked {
+  display: block !important;
+}
+
+.eye-slash-icon {
+  display: none;
+}
+
+.eye-open-icon {
+  display: block;
+}
+
+/* When toggle checkbox is checked, show unmasked input & slashed eye */
+.pw-toggle-checkbox:checked ~ .input-icon-wrapper .pw-input-masked {
+  display: none !important;
+}
+
+.pw-toggle-checkbox:checked ~ .input-icon-wrapper .pw-input-unmasked {
+  display: block !important;
+}
+
+.pw-toggle-checkbox:checked ~ .input-icon-wrapper .eye-open-icon {
+  display: none;
+}
+
+.pw-toggle-checkbox:checked ~ .input-icon-wrapper .eye-slash-icon {
+  display: block;
+  stroke: var(--primary);
+}
+
+.pw-toggle-checkbox:checked ~ .input-icon-wrapper .password-toggle-btn {
+  color: var(--primary);
+}
+
+label.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+label.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+label.password-toggle-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.auth-row-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  margin-top: 2px;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-strong);
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.auth-submit-btn {
+  height: 50px;
+  border-radius: var(--radius-md);
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.22);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.auth-submit-btn:hover {
+  background-color: var(--primary-hover);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(163, 63, 23, 0.3);
+}
+
+.quick-demo-login {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--badge-background);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quick-demo-btn {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.auth-switch-link {
+  color: var(--primary);
+  font-weight: 600;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.auth-switch-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   2. HOME SCREEN
+   ========================================================================== */
+
+.hero-section {
+  padding: 68px 0 44px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.hero-heading {
+  font-family: var(--font-serif);
+  font-size: 3.25rem;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+}
+
+.hero-description {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+/* Quick Search Card */
+.quick-search-box {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-card);
+  max-width: 880px;
+  margin: 0 auto 60px;
+}
+
+.search-form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.4fr 1.4fr auto;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.search-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.search-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.search-input-field {
+  height: 44px;
+  padding: 0 14px;
+  background-color: var(--input-background);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   3. RESTAURANT LISTING & CUISINE FILTER
+   ========================================================================== */
+
+.listing-header-wrap {
+  padding: 40px 0 24px;
+}
+
+/* Cuisine Filter Chips via Pure CSS Radios */
+.cuisine-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 24px 0 32px;
+}
+
+.radio-cuisine-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.cuisine-chip {
+  padding: 9px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  user-select: none;
+  display: inline-block;
+}
+
+.cuisine-chip:hover {
+  border-color: var(--border-strong);
+  background-color: #FFFFFF;
+}
+
+.radio-cuisine-input:checked + .cuisine-chip,
+.cuisine-chip.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(163, 63, 23, 0.22);
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+  margin-bottom: 64px;
+}
+
+.restaurant-card {
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--border-strong);
+}
+
+.restaurant-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--input-background);
+  overflow: hidden;
+}
+
+.restaurant-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.restaurant-card:hover .restaurant-card-img {
+  transform: scale(1.03);
+}
+
+.restaurant-cuisine-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border: 1px solid rgba(233, 224, 214, 0.8);
+}
+
+.restaurant-price-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(45, 33, 27, 0.84);
+  color: #FFFFFF;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.restaurant-card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.restaurant-name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.restaurant-rating {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.restaurant-rating svg {
+  width: 14px;
+  height: 14px;
+  fill: #D9822B;
+  stroke: #D9822B;
+}
+
+.restaurant-location {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.restaurant-location svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-muted);
+}
+
+.restaurant-short-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* ==========================================================================
+   4. RESTAURANT DETAILS SCREENS
+   ========================================================================== */
+
+.page-back-nav {
+  padding: 24px 0 16px;
+}
+
+.back-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.back-link-btn:hover {
+  color: var(--primary);
+  border-color: var(--border-strong);
+}
+
+.details-hero-wrap {
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 40px;
+}
+
+.details-hero-img-box {
+  width: 100%;
+  max-height: 420px;
+  background-color: var(--input-background);
+  overflow: hidden;
+  position: relative;
+}
+
+.details-hero-img {
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.details-body {
+  padding: 36px 36px 40px;
+}
+
+.details-header-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.details-title {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.details-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.details-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 20px 0 28px;
+  max-width: 860px;
+}
+
+.details-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.feature-tag {
+  background-color: var(--badge-background);
+  color: var(--badge-text);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.details-hours-box {
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.hours-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.hours-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.hours-text strong {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   RESERVATION FLOW (STEPS 5, 6, 7, 8)
+   ========================================================================== */
+
+/* 4-Step Progress Indicator */
+.stepper-container {
+  max-width: 760px;
+  margin: 24px auto 36px;
+  padding: 0 10px;
+}
+
+.stepper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.stepper-nav::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 36px;
+  right: 36px;
+  height: 2px;
+  background-color: var(--border);
+  z-index: 1;
+}
+
+.step-item {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.step-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.step-item.active .step-circle {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+.step-item.active .step-label {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.step-item.completed .step-circle {
+  background-color: var(--badge-background);
+  border-color: var(--border-strong);
+  color: var(--primary);
+}
+
+.step-item.completed .step-label {
+  color: var(--text-primary);
+}
+
+/* Booking Step Card Container */
+.booking-flow-card {
+  max-width: 680px;
+  margin: 0 auto 64px;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: 36px 36px 32px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+
+.booking-step-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.booking-step-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+/* 5. Date & Time Selection (Pure CSS Interactive Radios) */
+.selection-subheading {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* Date Chips */
+.date-chips-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.date-chip-btn {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--input-background);
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  display: block;
+}
+
+.date-chip-btn:hover {
+  border-color: var(--border-strong);
+  background-color: #FFFFFF;
+}
+
+.date-chip-day {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: block;
+}
+
+.date-chip-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  display: block;
+}
+
+/* Guest Selector */
+.guest-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.guest-chip-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--input-background);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.guest-chip-btn:hover {
+  border-color: var(--border-strong);
+  background-color: #FFFFFF;
+}
+
+/* Time Slots Grid */
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.time-slot-btn {
+  height: 46px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--input-background);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.time-slot-btn:hover {
+  background-color: #FFFFFF;
+  border-color: var(--border-strong);
+}
+
+.flow-button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* 6. Table Selection Screen (Pure CSS Interactive Floor Plan) */
+.table-accommodate-notice {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background-color: var(--badge-background);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-layout-container {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+
+.floor-plan-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.table-node {
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
+  background-color: var(--input-background);
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-primary);
+}
+
+.table-node:hover {
+  background-color: #FFFFFF;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-subtle);
+}
+
+.table-selected-badge {
+  display: none;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+}
+
+/* Unavailable: Disabled appearance */
+.table-node.is-unavailable,
+.table-node.unavailable {
+  background-color: var(--border-subtle);
+  border: 1.5px dashed var(--border);
+  color: var(--text-muted);
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.table-id-text {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.table-capacity-text {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.table-status-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 18px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.legend-dot.available {
+  background-color: var(--input-background);
+  border: 1px solid var(--border-strong);
+}
+
+.legend-dot.selected {
+  background-color: var(--primary);
+}
+
+.legend-dot.unavailable {
+  background-color: var(--border-subtle);
+  border: 1px dashed var(--border);
+  opacity: 0.6;
+}
+
+/* 7. Booking Summary Screen */
+.summary-details-list {
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9375rem;
+}
+
+.summary-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.summary-value {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.policy-card {
+  background-color: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.policy-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.policy-text {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* 8. Booking Confirmation Screen */
+.confirmation-viewport {
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-card {
+  max-width: 520px;
+  width: 100%;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: 44px 36px 36px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.confirm-check-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--success-light);
+  border: 2px solid var(--success-border);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.confirm-check-badge svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--success);
+}
+
+.confirm-heading {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.confirm-subtext {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.booking-id-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background-color: var(--badge-background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+.confirmation-table-specs {
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+/* 9. My Bookings Screen */
+.my-bookings-wrap {
+  padding: 40px 0 64px;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.booking-item-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.booking-item-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.booking-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-restaurant-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.booking-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.booking-action-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 10. Booking Details Screen */
+.booking-details-modal-box {
+  max-width: 540px;
+  margin: 40px auto 64px;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: 36px 36px 32px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+
+/* 11. Profile / Settings Screen */
+.profile-card {
+  max-width: 540px;
+  margin: 40px auto 64px;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: 36px 36px 32px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+
+/* Site Footer */
+.site-footer {
+  margin-top: auto;
+  background-color: var(--footer-background);
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  text-align: center;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Minimal Login Footer (Matching login_screenshot.png) */
+.auth-page-footer {
+  padding: 24px 0 32px;
+  border-top: 1px solid var(--border);
+  background-color: var(--footer-background);
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.auth-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.auth-footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.auth-footer-links a:hover {
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .search-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tables-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: 2.35rem;
+  }
+  .site-header {
+    height: auto;
+    padding: 12px 0;
+    top: 50px;
+  }
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 18px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .search-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .restaurant-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking-flow-card,
+  .booking-details-modal-box,
+  .profile-card,
+  .confirmation-card,
+  .auth-card {
+    padding: 26px 20px;
+    border-radius: var(--radius-lg);
+  }
+  .details-body {
+    padding: 24px 20px;
+  }
+  .booking-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .booking-action-col {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .footer-inner,
+  .auth-footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+  .prototype-bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .prototype-bar-links {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+}
