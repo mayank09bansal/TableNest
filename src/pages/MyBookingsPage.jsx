@@ -12,7 +12,7 @@ import {
   XCircle,
   ArrowRight,
   RotateCcw,
-  Gift
+  Receipt
 } from 'lucide-react';
 
 export const MyBookingsPage = () => {
@@ -37,7 +37,7 @@ export const MyBookingsPage = () => {
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '2.4rem', marginBottom: '8px' }}>My Dining Reservations</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>
-          Manage your upcoming confirmed tables, claim compensation on cancellations, and review your dining history.
+          Manage your upcoming confirmed tables, cancel reservations with transparent refunds, and review your dining history.
         </p>
       </div>
 
@@ -217,32 +217,43 @@ export const MyBookingsPage = () => {
                 </div>
               </div>
 
-              {/* Cancelled Compensation Details Callout */}
-              {item.status === 'Cancelled' && (
-                <div
-                  style={{
-                    background: '#FFF8F6',
-                    padding: '14px 18px',
-                    borderRadius: '8px',
-                    border: '1.5px solid #F5C6BA',
-                    fontSize: '0.86rem'
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '6px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#A33F17', fontWeight: '700' }}>
-                      <Gift size={16} />
-                      <span>Net Refund: ₹{item.netRefund || item.totalCompensationRefund || 750}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#C81E1E', fontWeight: '600' }}>(₹{item.cancellationFee || 350} restaurant fee deducted)</span>
+              {/* Cancelled Refund Details Callout */}
+              {item.status === 'Cancelled' && (() => {
+                const totalPaid = item.paidAmount || item.totalAmount || 1100;
+                const cancellationFee = item.cancellationFee || 350;
+                const gstFee = item.gstFee || item.gstAmount || (item.depositAmount ? Math.round(item.depositAmount * 0.05) : 75);
+                const totalDeductions = cancellationFee + gstFee;
+                const netRefund = item.netRefund != null && item.netRefund < totalPaid ? item.netRefund : Math.max(0, totalPaid - totalDeductions);
+                const refundMode = item.refundMode || (item.compensationMode && !item.compensationMode.includes('Bonus') ? item.compensationMode : `Original Payment Method (${item.paymentMethod || 'UPI / Bank Card'})`);
+
+                return (
+                  <div
+                    style={{
+                      background: '#FFF8F6',
+                      padding: '14px 18px',
+                      borderRadius: '8px',
+                      border: '1.5px solid #F5C6BA',
+                      fontSize: '0.86rem'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '6px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#A33F17', fontWeight: '700' }}>
+                        <Receipt size={16} />
+                        <span>Net Refund: ₹{netRefund}</span>
+                        <span style={{ fontSize: '0.75rem', color: '#C81E1E', fontWeight: '600' }}>
+                          (₹{cancellationFee} fixed fee + ₹{gstFee} GST deducted)
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.76rem', background: 'var(--badge-green-bg)', color: 'var(--badge-green)', padding: '2px 8px', borderRadius: '999px', fontWeight: '800' }}>
+                        {item.refundStatus || 'Refunded ✓'}
+                      </span>
                     </div>
-                    <span style={{ fontSize: '0.76rem', background: 'var(--badge-green-bg)', color: 'var(--badge-green)', padding: '2px 8px', borderRadius: '999px', fontWeight: '800' }}>
-                      {item.refundStatus || 'Refunded ✓'}
-                    </span>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      Mode: <strong>{refundMode}</strong> · Reason: "{item.cancellationReason || 'Change of personal dining plans'}"
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Mode: <strong>{item.compensationMode || 'TableNest Dining Credit (Instant Wallet)'}</strong> · Reason: "{item.cancellationReason || 'Change of personal dining plans'}"
-                  </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Action buttons */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', borderTop: '1px solid var(--border-light)', paddingTop: '14px' }}>

@@ -39,6 +39,12 @@ export const ConfirmationPage = () => {
   }
 
   const isCancelled = booking.status === 'Cancelled';
+  const totalPaid = booking.paidAmount || booking.totalAmount || 1100;
+  const cancellationFee = booking.cancellationFee || 350;
+  const gstFee = booking.gstFee || booking.gstAmount || (booking.depositAmount ? Math.round(booking.depositAmount * 0.05) : 75);
+  const totalDeductions = cancellationFee + gstFee;
+  const netRefund = booking.netRefund != null && booking.netRefund < totalPaid ? booking.netRefund : Math.max(0, totalPaid - totalDeductions);
+  const refundMode = booking.refundMode || (booking.compensationMode && !booking.compensationMode.includes('Bonus') ? booking.compensationMode : `Original Payment Method (${booking.paymentMethod || 'UPI / Bank Card'})`);
 
   return (
     <div className="container fade-in" style={{ padding: '40px 24px 80px', maxWidth: '780px' }}>
@@ -73,7 +79,7 @@ export const ConfirmationPage = () => {
             borderRadius: 'var(--radius-full)'
           }}
         >
-          {isCancelled ? 'Reservation Cancelled with Compensation' : 'Reservation Confirmed & Table Held'}
+          {isCancelled ? 'Reservation Cancelled & Refunded' : 'Reservation Confirmed & Table Held'}
         </span>
 
         <h1 style={{ fontSize: '2.4rem', marginTop: '12px', marginBottom: '8px' }}>
@@ -244,7 +250,7 @@ export const ConfirmationPage = () => {
             </div>
           )}
 
-          {/* CANCELLED: Compensation & Refund Voucher Block */}
+          {/* CANCELLED: Refund Voucher Block */}
           {isCancelled && (
             <div
               style={{
@@ -257,15 +263,15 @@ export const ConfirmationPage = () => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.92rem', fontWeight: '700', color: '#A33F17' }}>
-                  <Gift size={18} />
-                  <span>Compensation &amp; Refund Settlement</span>
+                  <FileText size={18} />
+                  <span>Cancellation Settlement &amp; Refund Receipt</span>
                 </div>
                 <span style={{ fontSize: '0.8rem', fontWeight: '800', background: 'var(--badge-green-bg)', color: 'var(--badge-green)', padding: '3px 10px', borderRadius: 'var(--radius-full)' }}>
                   {booking.refundStatus || 'Refund Credited ✓'}
                 </span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '14px', fontSize: '0.88rem', marginBottom: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '14px', fontSize: '0.88rem', marginBottom: '14px' }}>
                 <div>
                   <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>Refund Reference</span>
                   <div style={{ fontWeight: '700', color: 'var(--text-main)', fontFamily: 'monospace', fontSize: '0.95rem', marginTop: '2px' }}>
@@ -274,23 +280,30 @@ export const ConfirmationPage = () => {
                 </div>
 
                 <div>
-                  <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>Deposit Paid</span>
+                  <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>Amount Paid</span>
                   <div style={{ fontWeight: '600', color: 'var(--text-main)', fontSize: '0.95rem', marginTop: '2px' }}>
-                    ₹{booking.paidAmount || booking.totalAmount || 1100}
+                    ₹{totalPaid}
                   </div>
                 </div>
 
                 <div>
-                  <span style={{ color: '#C81E1E', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>Cancellation Fee</span>
+                  <span style={{ color: '#C81E1E', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>Fixed Fee</span>
                   <div style={{ fontWeight: '700', color: '#C81E1E', fontSize: '0.95rem', marginTop: '2px' }}>
-                    - ₹{booking.cancellationFee || 350}
+                    - ₹{cancellationFee}
+                  </div>
+                </div>
+
+                <div>
+                  <span style={{ color: '#C81E1E', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '700' }}>GST</span>
+                  <div style={{ fontWeight: '700', color: '#C81E1E', fontSize: '0.95rem', marginTop: '2px' }}>
+                    - ₹{gstFee}
                   </div>
                 </div>
 
                 <div>
                   <span style={{ color: 'var(--badge-green)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '800' }}>Net Refund</span>
-                  <div style={{ fontWeight: '800', color: 'var(--badge-green)', fontSize: '1.2rem', marginTop: '2px' }}>
-                    ₹{booking.netRefund || booking.totalCompensationRefund || 750}
+                  <div style={{ fontWeight: '800', color: 'var(--badge-green)', fontSize: '1.25rem', marginTop: '2px' }}>
+                    ₹{netRefund}
                   </div>
                 </div>
               </div>
@@ -298,7 +311,7 @@ export const ConfirmationPage = () => {
               <div style={{ background: '#FFFFFF', padding: '12px 14px', borderRadius: '6px', border: '1px solid #F2DDD8', fontSize: '0.84rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
                 <div><strong>Reason:</strong> "{booking.cancellationReason || 'Change of personal dining plans'}"</div>
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '4px' }}>
-                  A fixed table-holding charge of <strong>₹{booking.cancellationFee || 350}</strong> was retained by {booking.restaurantName}. The remaining <strong>₹{booking.netRefund || 750}</strong> was credited to your {booking.compensationMode || 'Dining Wallet'}.
+                  A fixed table-holding fee of <strong>₹{cancellationFee}</strong> and GST of <strong>₹{gstFee}</strong> were deducted. The remaining refund of <strong>₹{netRefund}</strong> has been credited to your {refundMode}.
                 </div>
               </div>
             </div>
@@ -307,8 +320,8 @@ export const ConfirmationPage = () => {
           {/* Cancellation Notice */}
           <div style={{ fontSize: '0.82rem', color: 'var(--text-light)', textAlign: 'center' }}>
             {isCancelled
-              ? 'Your table hold was released. You can use your compensation credits to book any table across India anytime.'
-              : 'TableNest Concierge verified. Free cancellation with compensation refund available prior to seating.'}
+              ? 'Your reservation was cancelled and the table hold has been released. The remaining net refund has been processed.'
+              : 'TableNest Concierge verified. Cancellation with transparent fee deduction and refund available prior to seating.'}
           </div>
         </div>
       </div>
@@ -337,7 +350,7 @@ export const ConfirmationPage = () => {
             style={{ gap: '6px' }}
           >
             <RotateCcw size={16} />
-            <span>Book Another Table with Credits</span>
+            <span>Re-Book Another Table</span>
           </Link>
         )}
 

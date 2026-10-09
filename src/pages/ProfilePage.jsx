@@ -86,7 +86,7 @@ export const ProfilePage = () => {
                 ₹{user.diningWalletBalance || 500}
               </div>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                Active compensation credits
+                Available dining balance
               </span>
             </div>
           </div>

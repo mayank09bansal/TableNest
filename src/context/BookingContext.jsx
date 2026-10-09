@@ -78,9 +78,40 @@ export const BookingProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : INITIAL_USER;
   });
 
+  const sanitizeBookings = (list) => {
+    return list.map(b => {
+      if (b.status === 'Cancelled') {
+        const totalPaid = b.totalAmount || b.paidAmount || 1100;
+        const cancellationFee = 350; // Fixed restaurant table-holding fee
+        const gstFee = b.gstAmount || (b.depositAmount ? Math.round(b.depositAmount * 0.05) : 75);
+        const totalDeductions = cancellationFee + gstFee;
+        const netRefund = Math.max(0, totalPaid - totalDeductions);
+        return {
+          ...b,
+          paidAmount: totalPaid,
+          cancellationFee,
+          gstFee,
+          totalDeductions,
+          netRefund,
+          totalCompensationRefund: netRefund,
+          refundMode: b.refundMode || (b.paymentMethod ? `Original Payment Method (${b.paymentMethod})` : 'Original Payment Source (UPI / Bank Card)'),
+          compensationMode: b.refundMode || (b.paymentMethod ? `Original Payment Method (${b.paymentMethod})` : 'Original Payment Source (UPI / Bank Card)'),
+          refundStatus: 'Refund Credited ✓'
+        };
+      }
+      return b;
+    });
+  };
+
   const [bookings, setBookings] = useState(() => {
     const saved = localStorage.getItem('tablenest_bookings');
-    return saved ? JSON.parse(saved) : INITIAL_BOOKINGS;
+    if (!saved) return INITIAL_BOOKINGS;
+    try {
+      const parsed = JSON.parse(saved);
+      return sanitizeBookings(parsed);
+    } catch {
+      return INITIAL_BOOKINGS;
+    }
   });
 
   const [favorites, setFavorites] = useState(() => {
@@ -127,14 +158,20 @@ export const BookingProvider = ({ children }) => {
     const refundRef = `REF-${Math.floor(10000 + Math.random() * 90000)}`;
     const cancellationFee = 350; // Fixed restaurant table-holding cancellation fee
     let refundCreditedAmount = 0;
-    const isWallet = cancellationData.compensationMode !== 'original';
+    const isWallet = cancellationData.refundDestination === 'wallet';
 
     setBookings(prev =>
       prev.map(b => {
         if (b.id !== bookingId) return b;
         const totalPaid = b.totalAmount || 1100;
-        const netRefund = Math.max(0, totalPaid - cancellationFee);
+        const gstFee = b.gstAmount || (b.depositAmount ? Math.round(b.depositAmount * 0.05) : 75);
+        const totalDeductions = cancellationFee + gstFee;
+        const netRefund = Math.max(0, totalPaid - totalDeductions);
         refundCreditedAmount = netRefund;
+
+        const refundMode = isWallet
+          ? 'TableNest Dining Wallet (Instant 1:1 Refund)'
+          : `Original Payment Method (${b.paymentMethod || 'UPI / Bank Card'})`;
 
         return {
           ...b,
@@ -144,11 +181,12 @@ export const BookingProvider = ({ children }) => {
           refundRef,
           paidAmount: totalPaid,
           cancellationFee,
+          gstFee,
+          totalDeductions,
           netRefund,
           totalCompensationRefund: netRefund,
-          compensationMode: isWallet
-            ? 'TableNest Dining Credit (Instant Wallet)'
-            : 'Original Payment Method (UPI / Bank Card)',
+          refundMode,
+          compensationMode: refundMode,
           refundStatus: 'Refund Credited ✓'
         };
       })
@@ -159,9 +197,9 @@ export const BookingProvider = ({ children }) => {
         ...prev,
         diningWalletBalance: (prev.diningWalletBalance || 0) + refundCreditedAmount
       }));
-      showToast(`Reservation cancelled. ₹${refundCreditedAmount} refunded to your TableNest Wallet (₹${cancellationFee} restaurant cancellation fee deducted).`);
+      showToast(`Reservation cancelled. Net ₹${refundCreditedAmount} refunded to your TableNest Wallet (₹${cancellationFee} fixed fee + GST deducted).`);
     } else {
-      showToast(`Reservation cancelled. Net refund of ₹${refundCreditedAmount} initiated to your original payment method (₹${cancellationFee} restaurant fee deducted).`);
+      showToast(`Reservation cancelled. Net refund of ₹${refundCreditedAmount} initiated to your original payment method (₹${cancellationFee} fixed fee + GST deducted).`);
     }
   };
 

@@ -14,10 +14,12 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
 
   const totalPaid = booking.totalAmount || 1100;
   const cancellationFee = 350; // Fixed restaurant table-holding cancellation fee
-  const netRefund = Math.max(0, totalPaid - cancellationFee);
+  const gstFee = booking.gstAmount || (booking.depositAmount ? Math.round(booking.depositAmount * 0.05) : 75);
+  const totalDeductions = cancellationFee + gstFee;
+  const netRefund = Math.max(0, totalPaid - totalDeductions);
 
   const [reason, setReason] = useState('Change of personal dining plans');
-  const [compensationMode, setCompensationMode] = useState('wallet');
+  const [refundDestination, setRefundDestination] = useState('original');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleConfirm = () => {
@@ -25,9 +27,11 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
     setTimeout(() => {
       onConfirmCancel(booking.id, {
         reason,
-        compensationMode,
+        refundDestination,
         paidAmount: totalPaid,
         cancellationFee,
+        gstFee,
+        totalDeductions,
         netRefund
       });
       setIsSubmitting(false);
@@ -150,7 +154,7 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
             </div>
           </div>
 
-          {/* Cancellation Fee Deduction Breakdown */}
+          {/* Cancellation Fee & GST Deduction Breakdown */}
           <div
             style={{
               background: 'var(--bg-subtle)',
@@ -162,19 +166,22 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px', fontSize: '0.78rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-light)', letterSpacing: '0.04em' }}>
               <Receipt size={14} />
-              <span>Cancellation Settlement Breakdown</span>
+              <span>Cancellation Refund Settlement</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '6px' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Initial Deposit Paid:</span>
+              <span style={{ color: 'var(--text-muted)' }}>Initial Amount Paid:</span>
               <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>₹{totalPaid}</span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '10px', color: '#C81E1E' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span>Less: Restaurant Cancellation Fee:</span>
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '6px', color: '#C81E1E' }}>
+              <span>Less: Fixed Cancellation Fee:</span>
               <span style={{ fontWeight: '700' }}>- ₹{cancellationFee}</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '10px', color: '#C81E1E' }}>
+              <span>Less: Non-Refundable GST:</span>
+              <span style={{ fontWeight: '700' }}>- ₹{gstFee}</span>
             </div>
 
             <div
@@ -188,12 +195,12 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
                 fontWeight: '800'
               }}
             >
-              <span style={{ color: 'var(--text-main)' }}>Net Refund to Customer:</span>
-              <span style={{ color: 'var(--badge-green)', fontSize: '1.15rem' }}>₹{netRefund}</span>
+              <span style={{ color: 'var(--text-main)' }}>Remaining Amount Refunded:</span>
+              <span style={{ color: 'var(--badge-green)', fontSize: '1.2rem' }}>₹{netRefund}</span>
             </div>
 
             <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '8px', lineHeight: '1.4' }}>
-              ℹ️ A fixed fee of <strong>₹{cancellationFee}</strong> is retained by the restaurant for table reservation cancellation. The remaining <strong>₹{netRefund}</strong> is refunded to you.
+              ℹ️ A fixed fee of <strong>₹{cancellationFee}</strong> and GST of <strong>₹{gstFee}</strong> (Total deductions: ₹{totalDeductions}) are deducted. The remaining amount of <strong>₹{netRefund}</strong> will be refunded to you.
             </div>
           </div>
 
@@ -216,21 +223,21 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
             </select>
           </div>
 
-          {/* Compensation & Refund Mode Selector */}
+          {/* Refund Destination Selector */}
           <div style={{ marginBottom: '22px' }}>
             <label className="form-label" style={{ fontSize: '0.84rem' }}>
-              Where would you like your net refund credited?
+              Where would you like the remaining refund (₹{netRefund}) credited?
             </label>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {/* Option A: TableNest Wallet */}
+              {/* Option A: Original Payment Method (Default) */}
               <div
-                onClick={() => setCompensationMode('wallet')}
+                onClick={() => setRefundDestination('original')}
                 style={{
                   padding: '12px 16px',
                   borderRadius: 'var(--radius-md)',
-                  border: `2px solid ${compensationMode === 'wallet' ? 'var(--primary)' : 'var(--border-main)'}`,
-                  background: compensationMode === 'wallet' ? 'var(--primary-light)' : 'var(--bg-surface)',
+                  border: `2px solid ${refundDestination === 'original' ? 'var(--primary)' : 'var(--border-main)'}`,
+                  background: refundDestination === 'original' ? 'var(--primary-light)' : 'var(--bg-surface)',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -243,53 +250,8 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
                     width: '32px',
                     height: '32px',
                     borderRadius: '8px',
-                    background: compensationMode === 'wallet' ? 'var(--primary)' : 'var(--bg-subtle)',
-                    color: compensationMode === 'wallet' ? '#FFFFFF' : 'var(--primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}
-                >
-                  <Wallet size={18} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
-                      TableNest Dining Wallet (Instant Credit)
-                    </strong>
-                    <span style={{ color: 'var(--primary)', fontWeight: '800', fontSize: '0.95rem' }}>
-                      ₹{netRefund}
-                    </span>
-                  </div>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    Immediate availability to re-book any table across India
-                  </span>
-                </div>
-              </div>
-
-              {/* Option B: Original Payment Method */}
-              <div
-                onClick={() => setCompensationMode('original')}
-                style={{
-                  padding: '12px 16px',
-                  borderRadius: 'var(--radius-md)',
-                  border: `2px solid ${compensationMode === 'original' ? 'var(--primary)' : 'var(--border-main)'}`,
-                  background: compensationMode === 'original' ? 'var(--primary-light)' : 'var(--bg-surface)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '8px',
-                    background: compensationMode === 'original' ? 'var(--primary)' : 'var(--bg-subtle)',
-                    color: compensationMode === 'original' ? '#FFFFFF' : 'var(--primary)',
+                    background: refundDestination === 'original' ? 'var(--primary)' : 'var(--bg-subtle)',
+                    color: refundDestination === 'original' ? '#FFFFFF' : 'var(--primary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -301,14 +263,59 @@ export const CancellationModal = ({ booking, isOpen, onClose, onConfirmCancel })
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <strong style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
-                      Original Payment Source Refund
+                      Original Payment Method ({booking.paymentMethod || 'UPI / Bank Card'})
                     </strong>
                     <span style={{ color: 'var(--text-main)', fontWeight: '800', fontSize: '0.95rem' }}>
                       ₹{netRefund}
                     </span>
                   </div>
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    Refunded back to original UPI ID / Card (2–4 hours)
+                    Refunded directly to original UPI / Bank account
+                  </span>
+                </div>
+              </div>
+
+              {/* Option B: TableNest Dining Wallet */}
+              <div
+                onClick={() => setRefundDestination('wallet')}
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: 'var(--radius-md)',
+                  border: `2px solid ${refundDestination === 'wallet' ? 'var(--primary)' : 'var(--border-main)'}`,
+                  background: refundDestination === 'wallet' ? 'var(--primary-light)' : 'var(--bg-surface)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    background: refundDestination === 'wallet' ? 'var(--primary)' : 'var(--bg-subtle)',
+                    color: refundDestination === 'wallet' ? '#FFFFFF' : 'var(--primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  <Wallet size={18} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <strong style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
+                      TableNest Dining Wallet (Instant 1:1 Refund)
+                    </strong>
+                    <span style={{ color: 'var(--primary)', fontWeight: '800', fontSize: '0.95rem' }}>
+                      ₹{netRefund}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    Exact refund credited instantly to re-book any table across India
                   </span>
                 </div>
               </div>
